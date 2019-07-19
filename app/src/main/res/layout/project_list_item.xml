@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View.OnClickListener" />
+
+        <variable name="project" type="com.example.mvvmkotlin.projectListView.model.Project"/>
+
+        <variable name="listener" type="com.example.mvvmkotlin.projectListView.adapter.ProjectItemListener"/>
+    </data>
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/item_horizontal_margin"
+            android:layout_marginEnd="@dimen/item_horizontal_margin"
+            android:onClick="@{(view) -> listener.onTaskClicked(project)}"
+            app:cardUseCompatPadding="true">
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@{project.selected ? @drawable/list_completed_touch_feedback : @drawable/touch_feedback}">
+
+            <LinearLayout
+                    android:layout_marginStart="@dimen/item_horizontal_margin"
+                    android:layout_marginEnd="@dimen/item_horizontal_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:background="@drawable/touch_feedback"
+                    android:orientation="vertical">
+
+                <com.example.mvvmkotlin.core.widget.SequrTextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/project_name"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/project_text"
+                        android:text="@{project.name}"/>
+
+                <com.example.mvvmkotlin.core.widget.SequrTextView
+                        android:id="@+id/languages"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/project_language"
+                        android:textSize="@dimen/project_text"
+                        android:text="@{String.format(@string/languages, project.language)}"/>
+
+                <com.example.mvvmkotlin.core.widget.SequrTextView
+                        android:id="@+id/project_watchers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/project_watchers"
+                        android:textSize="@dimen/project_text"
+                        android:text="@{String.format(@string/watchers, project.watchers)}"/>
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/project_item_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:checked="@{project.selected}"
+                    android:onClick="@{(view) -> listener.onProjectClicked(view, project)}"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"/>
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>
